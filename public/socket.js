@@ -1,4 +1,6 @@
-const socket = io.connect('http://localhost:9000');
+const localUrl='http://localhost:9000'
+const baseUrl = 'https://agar-io-socket.onrender.com'
+const socket = io.connect(baseUrl);
 
 // init will be called in UIStuff.js when we click to start the game
 const init = async () => {
