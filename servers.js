@@ -8,8 +8,6 @@ const expressServer = app.listen(9000,()=>{
 }) 
 const io = socketio(expressServer);
 
-// servers.js is not the entry point of our code, it just create the servers and exports them
-
 module.exports = {
     app,
     io

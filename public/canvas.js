@@ -1,29 +1,20 @@
-
-
-// player.locX = Math.floor(500 * Math.random() + 10);
-// player.locY = Math.floor(500 * Math.random() + 10);
 const draw = () => {
 
-    //reset the context 'translate' back to default
+    //reset the context
     context.setTransform(1, 0, 0, 1, 0, 0);
-
-    // clear canvas 
     context.clearRect(0, 0, canvas.width, canvas.height);
-
-    // clamp the screen to player location
-
     const camX = -player.locX + canvas.width / 2;
     const camY = -player.locY + canvas.height / 2;
-    context.translate(camX, camY);   // this basically moves the context
+    context.translate(camX, camY); 
 
     // drawing all players
     players.forEach((p) => {
-        if(!p.playerData){ // this means this player is absorbed
+        if(!p.playerData){ //absorbed player
             return;
         }
         context.beginPath();
         context.fillStyle = p.playerData.color;
-        context.arc(p.playerData.locX, p.playerData.locY, p.playerData.radius, 0, 2 * Math.PI); // draw a circle
+        context.arc(p.playerData.locX, p.playerData.locY, p.playerData.radius, 0, 2 * Math.PI);
         context.fill();
         context.lineWidth = 3;
         context.strokeStyle = "white"
@@ -39,13 +30,11 @@ const draw = () => {
         context.fill();
     })
 
-    requestAnimationFrame(draw); // this is like a controlled loop, it runs the draw function , every fram , if frame is 30fps then it will run 30 times per second
+    requestAnimationFrame(draw);
 }
 
 
-// move palyer acc to mouse direction -> moving means we redraw the the player again and again and it seems to be moving
 canvas.addEventListener('mousemove', (event) => {
-    console.log(event); // it gives us the curr position in terms of x,y
 
     const mousePosition = {
         x: event.clientX,

@@ -2,12 +2,10 @@ const localUrl='http://localhost:9000'
 const baseUrl = 'https://agar-io-socket.onrender.com'
 const socket = io.connect(baseUrl);
 
-// init will be called in UIStuff.js when we click to start the game
 const init = async () => {
     const initData = await socket.emitWithAck('init', {
         playerName: player.name
     })
-    // console.log(nonPlayerOrbs);
 
     setInterval(() => {
         socket.emit('tock', {
@@ -18,12 +16,10 @@ const init = async () => {
     console.log(initData.orbs);
     orbs = initData.orbs;
     player.indexInPlayers = initData.indexInPlayers;
-    // console.log(orbs);
-    draw();  // inside canvas.js
+    draw();
 }
 
-//server sends out the location/data of all players playing
-// and we update the location of player based on data given by server
+// update player location
 socket.on('tick', (playersArray) => {
     console.log(playersArray);
     players = playersArray;
@@ -33,9 +29,7 @@ socket.on('tick', (playersArray) => {
 })
 
 socket.on('orbSwitch', (orbData) => {
-    // we get the idx of orb which got absorbed and also a newOrb which we need to add to game
-    // client also has orb array so we also need to remove the absorbed orb from here
-
+    // delete and create new orb
     orbs.splice(orbData.capturedOrbIdx, 1, orbData.newOrb);
 })
 
@@ -50,7 +44,6 @@ socket.on('playerAbsorbed', (absorbedPlayerData) => {
 
 
 socket.on('updateLeaderBoard', (leaderBoardArray) => {
-    // update dom for leader board
     leaderBoardArray.sort((a, b) => {
         return b.score - a.score
     })
@@ -64,7 +57,5 @@ socket.on('updateLeaderBoard', (leaderBoardArray) => {
         ${p.name} - ${p.score}${p.id === socket.id ? '*' : ''}
     </li>
 `;
-
-
     })
 })
